@@ -1,7 +1,7 @@
 import api from "./api.js";
 
-export async function getEmployees() {
-  const response = await api.get("/employees");
+export async function getEmployees(params = {}) {
+  const response = await api.get("/employees", { params });
   return response.data.employees ?? response.data;
 }
 
@@ -44,6 +44,7 @@ export async function createEmployee(data) {
 
 export async function updateEmployee(id, data) {
   const response = await api.put(`/employees/${id}`, {
+    first_name: data.firstName,
     last_name: data.lastName,
     gender: data.gender,
     phone_number: data.phoneNumber,
@@ -51,6 +52,7 @@ export async function updateEmployee(id, data) {
     position: data.position,
     department: data.department,
     active: data.active,
+    permissions: data.permissions,
   });
   return response.data;
 }
