@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTransactions } from "../services/PaymentService";
-import MenuDropdown from "../components/MenuDropdown";
+import Sidebar from "../components/Sidebar.jsx";
 import "./PaymentsPage.css";
 
 function fmt(amount, currency = "RSD") {
@@ -48,48 +48,52 @@ const PrintIcon = () => (
 );
 
 function PaymentDetail({ tx, onBack }) {
-    const cfg = STATUS_CFG[tx.status] ?? STATUS_CFG["Realizovano"];
+  const cfg = STATUS_CFG[tx.status] ?? STATUS_CFG["Realizovano"];
 
-    return (
-        <div className="pp-content">
-            <div className="pp-top-row">
-                <button className="pp-back-btn" onClick={onBack}><BackArrow /></button>
-                <span className="pp-section-title">Detalji plaćanja</span>
-            </div>
+  return (
+    <div className="pp-content">
+        <Sidebar/>
+      <div className="pp-top-row">
+        <button className="pp-back-btn" onClick={onBack}>‹</button>
+        <span className="pp-section-title">Detalji plaćanja</span>
+      </div>
 
-            <div className="pp-status-banner" style={{ background: cfg.bg, borderColor: cfg.color + "33" }}>
-                <span className="pp-status-icon" style={{ color: cfg.color }}>{cfg.icon}</span>
-                <span className="pp-status-label" style={{ color: cfg.color }}>{cfg.label}</span>
-            </div>
+      {/* Status banner */}
+      <div className="pp-status-banner" style={{ background: cfg.bg, borderColor: cfg.color + "33" }}>
+        <span className="pp-status-icon" style={{ color: cfg.color }}>{cfg.icon}</span>
+        <span className="pp-status-label" style={{ color: cfg.color }}>{cfg.label}</span>
+      </div>
 
-            <div className="pp-amount-card">
-                <span className="pp-amount-sup">Iznos</span>
-                <span className="pp-amount-val">{fmt(tx.final_amount, tx.currency)}</span>
-                {tx.fee > 0 && <span className="pp-fee">+ {fmt(tx.fee, tx.currency)} naknada</span>}
-            </div>
+      {/* Amount */}
+      <div className="pp-amount-card">
+        <span className="pp-amount-sup">Iznos</span>
+        <span className="pp-amount-val">{fmt(tx.final_amount, tx.currency)}</span>
+        {tx.fee > 0 && <span className="pp-fee">+ {fmt(tx.fee, tx.currency)} naknada</span>}
+      </div>
 
-            <div className="pp-detail-card">
-                {[
-                    ["Račun primaoca", tx.to_account],
-                    ["Račun platioca", tx.from_account],
-                    ["Svrha plaćanja", tx.purpose],
-                    ["Šifra plaćanja", tx.payment_code],
-                    ["Poziv na broj",  tx.reference_number],
-                    ["Datum i vreme",  formatDate(tx.timestamp)],
-                    ["Status",         cfg.label],
-                ].map(([label, value], i) => (
-                    <div key={label} className={`pp-drow${i > 0 ? " pp-drow--border" : ""}`}>
-                        <span className="pp-drow-label">{label}</span>
-                        <span className="pp-drow-value">{value}</span>
-                    </div>
-                ))}
-            </div>
+      {/* Detail rows */}
+      <div className="pp-detail-card">
+        {[
+          ["Račun primaoca", tx.to_account],
+          ["Račun platioca", tx.from_account],
+          ["Svrha plaćanja", tx.purpose],
+          ["Šifra plaćanja", tx.payment_code],
+          ["Poziv na broj",  tx.reference_number],
+          ["Datum i vreme",  formatDate(tx.timestamp)],
+          ["Status",         cfg.label],
+        ].map(([label, value], i) => (
+          <div key={label} className={`pp-drow${i > 0 ? " pp-drow--border" : ""}`}>
+            <span className="pp-drow-label">{label}</span>
+            <span className="pp-drow-value">{value}</span>
+          </div>
+        ))}
+      </div>
 
-            <button className="pp-print-btn">
-                <PrintIcon /> Štampaj potvrdu
-            </button>
-        </div>
-    );
+      <button className="pp-print-btn">
+        🖨&nbsp; Štampaj potvrdu
+      </button>
+    </div>
+  );
 }
 
 function PaymentList({ transactions, onSelect }) {
@@ -173,38 +177,40 @@ function PaymentList({ transactions, onSelect }) {
 }
 
 export default function PaymentsPage() {
-    const [transactions, setTransactions] = useState([]);
-    const [selectedTx, setSelectedTx]     = useState(null);
-    const [loading, setLoading]           = useState(true);
-    const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
+  const [selectedTx, setSelectedTx]     = useState(null);
+  const [loading, setLoading]           = useState(true);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        async function load() {
-            setLoading(true);
-            setTransactions(await getTransactions());
-            setLoading(false);
-        }
-        load();
-    }, []);
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      setTransactions(await getTransactions());
+      setLoading(false);
+    }
+    load();
+  }, []);
 
-    return (
-        <div className="pp-bg">
-            <MenuDropdown />
+  return (
+    <div className="pp-bg">
+      <img src="/bank-logo.png" alt="logo" className="pp-logo" />
+      <Sidebar />
 
-            <div className="pp-wrapper">
-                <div className="pp-page-header">
-                    <div className="pp-title-row">
-                        <button className="pp-nav-back-btn" onClick={() => { setSelectedTx(null); navigate("/recipients"); }}>
-                            <BackArrow />
-                        </button>
-                        <h2 className="pp-page-title">
-                            {selectedTx ? "Detalji plaćanja" : "Pregled plaćanja"}
-                        </h2>
-                    </div>
-                    <button className="pp-new-btn" onClick={() => navigate("/payments/new")}>
-                        + Novo plaćanje
-                    </button>
-                </div>
+      <div className="pp-wrapper">
+        {/* Page header */}
+        <div className="pp-page-header">
+          <div className="pp-title-row">
+            <button className="pp-nav-back-btn" onClick={() => { setSelectedTx(null); navigate("/recipients"); }}>
+              ‹
+            </button>
+            <h2 className="pp-page-title">
+              {selectedTx ? "Detalji plaćanja" : "Pregled plaćanja"}
+            </h2>
+          </div>
+          <button className="pp-new-btn" onClick={() => navigate("/payments/new")}>
+            + Novo plaćanje
+          </button>
+        </div>
 
                 <div className="pp-card">
                     {loading ? (

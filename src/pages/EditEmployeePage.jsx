@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./CreateEmployeePage.css";
 import "./EmployeesPage.css";
 import { getEmployeeById, updateEmployee } from "../services/EmployeeService";
-import MenuDropdown from "../components/MenuDropdown";
+import Sidebar from "../components/Sidebar.jsx";
 
 function validate(form) {
   const errors = {};
@@ -128,7 +128,7 @@ export default function EditEmployeePage() {
   if (notFound) {
     return (
       <div className="page-bg">
-        <MenuDropdown />
+        <Sidebar />
 
         <div className="create-page">
           <div className="create-form-card">
@@ -141,7 +141,7 @@ export default function EditEmployeePage() {
 
   return (
     <div className="page-bg">
-      <MenuDropdown />
+      <Sidebar />
 
       <div className="create-page">
         <div className="create-form-card">

@@ -4,6 +4,7 @@ import { getCurrentUserId } from "../services/AuthService";
 import CardsList from "../components/cards/CardsList";
 import CreateCardForm from "../components/cards/CreateCardForm";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar.jsx";
 import "./CardsPage.css";
 
 function CardsPage() {
@@ -71,26 +72,27 @@ function CardsPage() {
   }
 
   return (
-      <div className="cards-page">
-        <div className="cards-container">
-          <h1>Moje kartice</h1>
+    <div className="cards-page">
+      <Sidebar/>
+      <div className="cards-container">
+        <h1>Moje kartice</h1>
 
-          {message && <div className="message success">{message}</div>}
+        {message && <div className="message success">{message}</div>}
 
-          <div className="tabs">
-            <button
-                className={`tab-btn ${activeTab === "list" ? "active" : ""}`}
-                onClick={() => setActiveTab("list")}
-            >
-              Sve kartice ({cards.length})
-            </button>
-            <button
-                className={`tab-btn ${activeTab === "create" ? "active" : ""}`}
-                onClick={() => setActiveTab("create")}
-            >
-              Zatraži karticu
-            </button>
-          </div>
+        <div className="tabs">
+          <button 
+            className={`tab-btn ${activeTab === "list" ? "active" : ""}`}
+            onClick={() => setActiveTab("list")}
+          >
+            Sve kartice ({cards.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === "create" ? "active" : ""}`}
+            onClick={() => setActiveTab("create")}
+          >
+            Zatraži karticu
+          </button>
+        </div>
 
           {activeTab === "list" && (
               <CardsList

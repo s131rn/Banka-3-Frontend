@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar.jsx";
 import "./LoanOverview.css";
 
 export default function LoanOverview() {
@@ -24,6 +25,8 @@ export default function LoanOverview() {
 
   return (
       <div className="lov-page">
+            <Sidebar />
+
         <h1 className="lov-title">Moji krediti</h1>
 
         <div className="lov-grid">

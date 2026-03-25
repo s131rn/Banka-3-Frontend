@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import EmployeeTable from "../components/employees/EmployeeTable";
 import { getEmployees } from "../services/EmployeeService";
-import MenuDropdown from "../components/MenuDropdown";
+import Sidebar from "../components/Sidebar.jsx";
 import "./EmployeesPage.css";
 
 function EmployeesPage() {
@@ -66,7 +66,7 @@ function EmployeesPage() {
   if (loading) {
     return (
         <div className="page-bg">
-          <MenuDropdown />
+        <Sidebar />
           <div className="content-wrapper">
             <p style={{ color: "#475569", padding: "80px 24px", textAlign: "center" }}>Učitavanje...</p>
           </div>
@@ -77,7 +77,7 @@ function EmployeesPage() {
   if (error) {
     return (
         <div className="page-bg">
-          <MenuDropdown />
+        <Sidebar />
           <div className="content-wrapper">
             <p style={{ color: "#f87171", padding: "80px 24px", textAlign: "center" }}>{error}</p>
           </div>
@@ -87,7 +87,7 @@ function EmployeesPage() {
 
   return (
       <div className="page-bg">
-        <MenuDropdown />
+        <Sidebar />
 
         <div className="content-wrapper">
           <div className="employee-card">

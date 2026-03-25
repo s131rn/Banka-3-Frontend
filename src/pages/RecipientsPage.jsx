@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRecipients } from "../services/PaymentService";
-import MenuDropdown from "../components/MenuDropdown";
+import Sidebar from "../components/Sidebar.jsx";
 import "./RecipientsPage.css";
 
 export default function RecipientsPage() {
@@ -30,7 +30,7 @@ export default function RecipientsPage() {
 
   return (
       <div className="rp-bg">
-        <MenuDropdown />
+        <Sidebar />
 
         <div className="rp-wrapper">
           <div className="rp-page-header">
