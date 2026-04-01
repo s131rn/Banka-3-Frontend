@@ -67,7 +67,7 @@ export default function ClientDashboardPage() {
                     const txData = await getAccountTransactions(firstAcc); 
                     setTransactions(txData || []);
                 }
-            } catch (err) {
+            } catch {
                 if (!cancelled) setError("Greška pri učitavanju podataka.");
             } finally {
                 if (!cancelled) setLoading(false);

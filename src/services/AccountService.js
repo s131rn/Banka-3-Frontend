@@ -11,7 +11,7 @@ export async function getAccountTransactions(accountNumber) {
       params: { account_number: accountNumber },
     });
     return response.data || [];
-  } catch (error) {
+  } catch {
     return [];
   }
 }
